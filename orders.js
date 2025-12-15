@@ -91,19 +91,34 @@ async function deleteOrder(orderId) {
   }
 }
 
-// ===== РЕДАКТИРОВАНИЕ ЗАКАЗА (ПОКА TITLE) =====
+// ===== РЕДАКТИРОВАНИЕ ВСЕГО ЗАКАЗА =====
 async function editOrder(orderId) {
-  const newTitle = prompt("Новое название заказа:");
-  if (!newTitle) return;
-
   try {
-    await fetch(`${API_URL}/orders/${orderId}`, {
+    // получаем актуальный заказ
+    const orders = await fetch(`${API_URL}/orders`).then(r => r.json());
+    const order = orders.find(o => o.id === orderId);
+    if (!order) return;
+
+    // собираем текст в привычном виде
+    const rawText = [
+      order.title,
+      ...order.items.map(i => i.name),
+      order.master ? `Р/с ${order.master}` : ""
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    const edited = prompt("Редактировать заказ целиком:", rawText);
+    if (!edited) return;
+
+    await fetch(`${API_URL}/orders/${orderId}/raw`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ title: newTitle })
+      body: JSON.stringify({ text: edited })
     });
+
     loadOrders();
   } catch (err) {
     console.error("Ошибка редактирования заказа:", err);
