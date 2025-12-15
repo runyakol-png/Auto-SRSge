@@ -2,26 +2,26 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AUTO SRS · Staff</title>
-  <link rel="stylesheet" href="style.css"/>
+  <title>AUTO SRS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="login-page">
 
-<header>
-  <h1>AUTO <span>SRS</span> · Staff</h1>
-</header>
+  <div class="login-container">
+    <div class="logo">
+      <span class="auto">AUTO</span><span class="srs"> SRS</span>
+    </div>
 
-<nav class="tabs">
-  <button class="active">Общие заказы</button>
-  <button>Тбилиси</button>
-  <button>Батуми</button>
-  <button>Разборка Тбилиси</button>
-  <button>Разборка Батуми</button>
-</nav>
+    <button class="login-btn" onclick="enterApp()">ВОЙТИ</button>
+    <div class="login-sub">Внутреннее приложение для сотрудников</div>
+  </div>
 
-<main id="orders"></main>
+  <script>
+    function enterApp() {
+      window.location.href = "app.html";
+    }
+  </script>
 
-<script src="app.js"></script>
 </body>
 </html>
