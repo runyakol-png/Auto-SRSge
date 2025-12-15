@@ -6,6 +6,7 @@ const API_URL = "https://auto-srs-backend-1.onrender.com";
 
 let ALL_ORDERS = [];
 let SEARCH_OPEN = false;
+let AUTO_REFRESH = true;
 
 // ================= LOAD ORDERS =================
 async function loadOrders() {
@@ -14,7 +15,11 @@ async function loadOrders() {
     const data = await res.json();
 
     ALL_ORDERS = data;
-    renderOrders(data);
+
+    // ⚠️ если идет поиск — НЕ перерисовываем
+    if (!SEARCH_OPEN) {
+      renderOrders(data);
+    }
 
   } catch (err) {
     console.error("Ошибка загрузки заказов:", err);
@@ -89,10 +94,14 @@ function toggleSearch() {
   const input = document.getElementById("searchInput");
 
   SEARCH_OPEN = !SEARCH_OPEN;
+  AUTO_REFRESH = !SEARCH_OPEN;
+
   box.style.display = SEARCH_OPEN ? "block" : "none";
   input.value = "";
 
-  renderOrders(ALL_ORDERS);
+  if (!SEARCH_OPEN) {
+    renderOrders(ALL_ORDERS);
+  }
 
   if (SEARCH_OPEN) {
     setTimeout(() => input.focus(), 50);
@@ -106,12 +115,15 @@ function handleSearchKey(e) {
 }
 
 function applySearch() {
+  AUTO_REFRESH = false;
+
   const query = document
     .getElementById("searchInput")
     .value
     .toLowerCase();
 
   if (!query) {
+    AUTO_REFRESH = true;
     renderOrders(ALL_ORDERS);
     return;
   }
@@ -176,4 +188,9 @@ async function editOrder(orderId) {
 
 // ================= START =================
 loadOrders();
-setInterval(loadOrders, 5000);
+
+setInterval(() => {
+  if (AUTO_REFRESH) {
+    loadOrders();
+  }
+}, 5000);
