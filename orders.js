@@ -27,9 +27,12 @@ async function loadOrders() {
         </div>
 
         <div class="order-items">
-          ${order.items.map(i => `
+          ${order.items.map(item => `
             <div class="order-row">
-              <span>${i}</span>
+              <span>${item.name}</span>
+              <button class="status ${item.done ? "done" : "not-done"}">
+                ${item.done ? "ГОТОВО" : "НЕ ГОТОВО"}
+              </button>
             </div>
           `).join("")}
         </div>
@@ -54,6 +57,4 @@ async function loadOrders() {
 }
 
 loadOrders();
-
-// автообновление каждые 5 секунд
 setInterval(loadOrders, 5000);
