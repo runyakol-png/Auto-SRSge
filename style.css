@@ -5,6 +5,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+/* ЭКРАНЫ */
 .screen {
   display: none;
   min-height: 100vh;
@@ -22,12 +23,12 @@ body {
 }
 
 .logo {
-  font-size: 32px;
+  font-size: 30px;
   letter-spacing: 0.2em;
   margin-bottom: 40px;
 }
 
-.auto { color: white; }
+.auto { color: #fff; }
 .srs { color: #ff2b2b; }
 
 .login-btn {
@@ -42,8 +43,8 @@ body {
 
 .login-sub {
   margin-top: 20px;
-  color: #666;
   font-size: 12px;
+  color: #666;
 }
 
 /* DASHBOARD */
@@ -60,18 +61,18 @@ body {
 
 .staff {
   color: #666;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .dashboard {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .card {
   border: 1px solid #1f1f1f;
-  border-radius: 18px;
-  padding: 20px;
+  border-radius: 16px;
+  padding: 18px;
   background: #050505;
 }
