@@ -1,31 +1,29 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <title>AUTO SRS • Staff</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>AUTO SRS · Staff</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body class="app-page">
+<body>
 
-  <header class="header">
-    <span class="auto">AUTO</span><span class="srs"> SRS</span>
-    <span class="staff">• Staff</span>
-  </header>
+  <div class="header">
+    <span class="auto">AUTO</span>
+    <span class="srs">SRS</span>
+    <span class="staff">· Staff</span>
+  </div>
 
   <div class="menu">
-
-    <button class="menu-btn" onclick="go('common')">Общие заказы</button>
-    <button class="menu-btn" onclick="go('tbilisi')">Заказы · Тбилиси</button>
-    <button class="menu-btn" onclick="go('batumi')">Заказы · Батуми</button>
-    <button class="menu-btn" onclick="go('dis-tbilisi')">Разборка · Тбилиси</button>
-    <button class="menu-btn" onclick="go('dis-batumi')">Разборка · Батуми</button>
-
+    <button class="menu-btn" onclick="go('orders.html')">ОБЩИЕ ЗАКАЗЫ</button>
+    <button class="menu-btn">ЗАКАЗЫ · ТБИЛИСИ</button>
+    <button class="menu-btn">ЗАКАЗЫ · БАТУМИ</button>
+    <button class="menu-btn">РАЗБОРКА · ТБИЛИСИ</button>
+    <button class="menu-btn">РАЗБОРКА · БАТУМИ</button>
   </div>
 
   <script>
-    function go(type) {
-      window.location.href = `orders.html?type=${type}`;
+    function go(page) {
+      window.location.href = page;
     }
   </script>
 
