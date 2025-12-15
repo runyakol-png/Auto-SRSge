@@ -1,36 +1,77 @@
-.menu-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-}
-
-.menu-card {
-  background: #050505;
-  border: 1px solid #262626;
-  border-radius: 18px;
-  padding: 26px 16px;
+body {
+  margin: 0;
+  background: #000;
   color: white;
-  font-size: 16px;
-  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.screen {
+  display: none;
+  min-height: 100vh;
+}
+
+.screen.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* LOGIN */
+.login-box {
   text-align: center;
-  cursor: pointer;
-  transition: all 0.15s ease;
 }
 
-.menu-card span {
-  display: block;
-  margin-top: 6px;
-  font-size: 13px;
+.logo {
+  font-size: 32px;
+  letter-spacing: 0.2em;
+  margin-bottom: 40px;
+}
+
+.auto { color: white; }
+.srs { color: #ff2b2b; }
+
+.login-btn {
+  background: transparent;
+  border: 1px solid #ff2b2b;
   color: #ff2b2b;
-  letter-spacing: 0.05em;
+  padding: 14px 60px;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-.menu-card:active {
-  transform: translateY(1px);
-  background: #ff2b2b;
-  color: black;
+.login-sub {
+  margin-top: 20px;
+  color: #666;
+  font-size: 12px;
 }
 
-.menu-card:active span {
-  color: black;
+/* DASHBOARD */
+#dashboard-screen {
+  flex-direction: column;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+  letter-spacing: 0.15em;
+}
+
+.staff {
+  color: #666;
+  font-size: 14px;
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card {
+  border: 1px solid #1f1f1f;
+  border-radius: 18px;
+  padding: 20px;
+  background: #050505;
 }
