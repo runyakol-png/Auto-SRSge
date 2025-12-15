@@ -2,11 +2,12 @@ function goBack() {
   window.location.href = "app.html";
 }
 
-const API_URL = "https://auto-srs-backend-1.onrender.com/orders";
+const API_URL = "https://auto-srs-backend-1.onrender.com";
 
+// ===== ЗАГРУЗКА ЗАКАЗОВ =====
 async function loadOrders() {
   try {
-    const res = await fetch(API_URL);
+    const res = await fetch(`${API_URL}/orders`);
     const data = await res.json();
 
     const root = document.getElementById("orders");
@@ -27,10 +28,13 @@ async function loadOrders() {
         </div>
 
         <div class="order-items">
-          ${order.items.map(item => `
+          ${order.items.map((item, index) => `
             <div class="order-row">
               <span>${item.name}</span>
-              <button class="status ${item.done ? "done" : "not-done"}">
+              <button
+                class="status ${item.done ? "done" : "not-done"}"
+                onclick="toggleItem(${order.id}, ${index})"
+              >
                 ${item.done ? "ГОТОВО" : "НЕ ГОТОВО"}
               </button>
             </div>
@@ -56,5 +60,21 @@ async function loadOrders() {
   }
 }
 
+// ===== ПЕРЕКЛЮЧЕНИЕ СТАТУСА =====
+async function toggleItem(orderId, index) {
+  try {
+    await fetch(`${API_URL}/orders/${orderId}/items/${index}`, {
+      method: "PATCH"
+    });
+
+    // просто перезагружаем список — надёжно
+    loadOrders();
+
+  } catch (err) {
+    console.error("Ошибка изменения статуса:", err);
+  }
+}
+
+// ===== START =====
 loadOrders();
 setInterval(loadOrders, 5000);
