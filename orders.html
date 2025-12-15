@@ -6,24 +6,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style-app.css" />
 </head>
-<body>
 
-<div class="page">
+<body class="orders-page">
 
-  <!-- КНОПКА НАЗАД -->
-  <button class="back-btn" onclick="goBack()">←</button>
+  <div class="page">
 
-  <!-- ЗАГОЛОВОК -->
-  <h1 class="page-title">Общие заказы</h1>
+    <!-- КНОПКА НАЗАД -->
+    <button class="back-btn" onclick="goBack()">←</button>
 
-  <!-- СПИСОК ЗАКАЗОВ -->
-  <div id="orders" class="orders-list">
-    <!-- сюда прилетят заказы -->
+    <!-- КНОПКА ПОИСК -->
+    <button class="search-btn" onclick="toggleSearch()">🔍</button>
+
+    <!-- ЗАГОЛОВОК -->
+    <h1 class="page-title">Общие заказы</h1>
+
+    <!-- ПОИСК -->
+    <div class="search-box" id="searchBox" style="display:none;">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Номер или имя заказа"
+        onkeydown="handleSearchKey(event)"
+      />
+    </div>
+
+    <!-- СПИСОК ЗАКАЗОВ -->
+    <div id="orders" class="orders-list">
+      <!-- сюда прилетают заказы -->
+    </div>
+
   </div>
 
-</div>
-
-<script src="orders.js"></script>
+  <script src="orders.js"></script>
 </body>
 </html>
-
