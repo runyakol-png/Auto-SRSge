@@ -79,3 +79,81 @@ body {
   transform: scale(0.97);
 }
 
+/* ====== ОБЩИЕ ЗАКАЗЫ ====== */
+
+.page {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #111 0%, #000 70%);
+  padding: 60px 20px 40px;
+  color: #fff;
+  position: relative;
+}
+
+.page-title {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+}
+
+.back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: none;
+  border: 1px solid #ff0000;
+  color: #ff0000;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  font-size: 20px;
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.order-card {
+  border: 1px solid #222;
+  border-radius: 18px;
+  padding: 16px;
+  background: linear-gradient(180deg, #0c0c0c, #050505);
+}
+
+.order-header {
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #ff4d4d;
+}
+
+.order-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.status {
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  border: none;
+}
+
+.status.not-done {
+  background: #3a0000;
+  color: #ff3b3b;
+}
+
+.status.done {
+  background: #003a1a;
+  color: #2cff8f;
+}
+
+.order-master {
+  margin-top: 12px;
+  font-size: 12px;
+  opacity: 0.7;
+}
