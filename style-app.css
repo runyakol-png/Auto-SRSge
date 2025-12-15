@@ -1,11 +1,11 @@
-/* RESET */
+/* ================= RESET ================= */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* BASE */
+/* ================= BASE ================= */
 html, body {
   width: 100%;
   height: 100%;
@@ -14,28 +14,24 @@ html, body {
   color: #fff;
 }
 
-/* ========================= */
-/* LOGIN / APP MAIN SCREEN */
-/* ========================= */
-
+/* ================= LOGIN / MAIN ================= */
 body.login-page,
 body.app-page {
   display: flex;
   justify-content: center;
   align-items: center;
-  background:
-    radial-gradient(circle at top, #111 0%, #050505 40%, #000 100%);
+  background: radial-gradient(circle at top, #111 0%, #050505 40%, #000 100%);
 }
 
-/* WRAPPER */
+/* ================= WRAPPER ================= */
 .app-wrapper {
   width: 100%;
-  max-width: 420px; /* 🔥 было 360 — мало */
+  max-width: 420px;
   padding: 24px;
   text-align: center;
 }
 
-/* LOGO */
+/* ================= LOGO ================= */
 .app-logo {
   font-size: 26px;
   letter-spacing: 6px;
@@ -51,7 +47,7 @@ body.app-page {
   margin-left: 6px;
 }
 
-/* SUBTITLE */
+/* ================= SUBTITLE ================= */
 .app-sub {
   font-size: 12px;
   color: rgba(255,255,255,0.45);
@@ -59,14 +55,13 @@ body.app-page {
   letter-spacing: 1px;
 }
 
-/* MENU */
+/* ================= MENU ================= */
 .menu {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
-/* BUTTONS */
 .menu-btn {
   height: 54px;
   border-radius: 28px;
@@ -88,32 +83,27 @@ body.app-page {
   transform: scale(0.97);
 }
 
-/* ========================= */
-/* ====== ОБЩИЕ ЗАКАЗЫ ===== */
-/* ========================= */
-
+/* ================= ORDERS PAGE ================= */
 body.orders-page {
-  background:
-    radial-gradient(circle at top, #111 0%, #000 70%);
+  background: radial-gradient(circle at top, #111 0%, #000 70%);
 }
 
-/* PAGE */
 .page {
   min-height: 100vh;
   width: 100%;
-  padding: 60px 16px 40px;
+  padding: 70px 16px 40px;
   position: relative;
 }
 
-/* TITLE */
+/* ================= TITLE ================= */
 .page-title {
   text-align: center;
   font-size: 22px;
-  margin-bottom: 30px;
+  margin-bottom: 18px;
   letter-spacing: 1px;
 }
 
-/* BACK BUTTON */
+/* ================= BACK BUTTON ================= */
 .back-btn {
   position: fixed;
   top: 16px;
@@ -125,19 +115,59 @@ body.orders-page {
   width: 42px;
   height: 42px;
   font-size: 20px;
-  z-index: 10;
+  z-index: 20;
 }
 
-/* ORDERS LIST */
+/* ================= SEARCH BUTTON ================= */
+.search-btn {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: 1px solid #ff0000;
+  color: #ff0000;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  font-size: 18px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ================= SEARCH INPUT ================= */
+.search-box {
+  max-width: 480px;
+  margin: 0 auto 18px;
+}
+
+.search-box input {
+  width: 100%;
+  height: 42px;
+  border-radius: 14px;
+  background: #0a0a0a;
+  border: 1px solid rgba(255, 0, 0, 0.4);
+  color: #fff;
+  padding: 0 14px;
+  font-size: 14px;
+  outline: none;
+}
+
+.search-box input::placeholder {
+  color: rgba(255,255,255,0.4);
+}
+
+/* ================= ORDERS LIST ================= */
 .orders-list {
   display: flex;
   flex-direction: column;
   gap: 16px;
   max-width: 480px;
-  margin: 0 auto; /* 🔥 аккуратный центр */
+  margin: 0 auto;
 }
 
-/* CARD */
+/* ================= CARD ================= */
 .order-card {
   border: 1px solid #222;
   border-radius: 18px;
@@ -145,15 +175,18 @@ body.orders-page {
   background: linear-gradient(180deg, #0c0c0c, #050505);
 }
 
-/* HEADER */
+/* ================= CARD HEADER ================= */
 .order-header {
   font-weight: 600;
   margin-bottom: 10px;
   color: #ff4d4d;
   font-size: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* ROW */
+/* ================= ROW ================= */
 .order-row {
   display: flex;
   justify-content: space-between;
@@ -162,7 +195,7 @@ body.orders-page {
   font-size: 14px;
 }
 
-/* STATUS */
+/* ================= STATUS ================= */
 .status {
   border-radius: 20px;
   padding: 6px 14px;
@@ -180,7 +213,7 @@ body.orders-page {
   color: #2cff8f;
 }
 
-/* MASTER */
+/* ================= MASTER ================= */
 .order-master {
   margin-top: 12px;
   font-size: 12px;
