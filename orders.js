@@ -24,7 +24,12 @@ async function loadOrders() {
 
       card.innerHTML = `
         <div class="order-header">
-          ${order.title}
+          <span>${order.title}</span>
+
+          <div class="order-actions">
+            <button class="edit-btn" onclick="editOrder(${order.id})">✏️</button>
+            <button class="delete-btn" onclick="deleteOrder(${order.id})">🗑</button>
+          </div>
         </div>
 
         <div class="order-items">
@@ -60,18 +65,48 @@ async function loadOrders() {
   }
 }
 
-// ===== ПЕРЕКЛЮЧЕНИЕ СТАТУСА =====
+// ===== ПЕРЕКЛЮЧЕНИЕ СТАТУСА ПОЗИЦИИ =====
 async function toggleItem(orderId, index) {
   try {
     await fetch(`${API_URL}/orders/${orderId}/items/${index}`, {
       method: "PATCH"
     });
-
-    // просто перезагружаем список — надёжно
     loadOrders();
-
   } catch (err) {
     console.error("Ошибка изменения статуса:", err);
+  }
+}
+
+// ===== УДАЛЕНИЕ ЗАКАЗА =====
+async function deleteOrder(orderId) {
+  if (!confirm("Удалить заказ полностью?")) return;
+
+  try {
+    await fetch(`${API_URL}/orders/${orderId}`, {
+      method: "DELETE"
+    });
+    loadOrders();
+  } catch (err) {
+    console.error("Ошибка удаления заказа:", err);
+  }
+}
+
+// ===== РЕДАКТИРОВАНИЕ ЗАКАЗА (ПОКА TITLE) =====
+async function editOrder(orderId) {
+  const newTitle = prompt("Новое название заказа:");
+  if (!newTitle) return;
+
+  try {
+    await fetch(`${API_URL}/orders/${orderId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ title: newTitle })
+    });
+    loadOrders();
+  } catch (err) {
+    console.error("Ошибка редактирования заказа:", err);
   }
 }
 
