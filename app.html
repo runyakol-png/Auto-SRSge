@@ -13,38 +13,21 @@
     <span class="staff">• Staff</span>
   </header>
 
-  <nav class="tabs">
-    <button class="tab active" onclick="openTab('common')">Общие</button>
-    <button class="tab" onclick="openTab('tbilisi')">Тбилиси</button>
-    <button class="tab" onclick="openTab('batumi')">Батуми</button>
-    <button class="tab" onclick="openTab('dis-tbilisi')">Разборка Тбилиси</button>
-    <button class="tab" onclick="openTab('dis-batumi')">Разборка Батуми</button>
-  </nav>
+  <div class="menu">
 
-  <main class="content">
+    <button class="menu-btn" onclick="go('common')">Общие заказы</button>
+    <button class="menu-btn" onclick="go('tbilisi')">Заказы · Тбилиси</button>
+    <button class="menu-btn" onclick="go('batumi')">Заказы · Батуми</button>
+    <button class="menu-btn" onclick="go('dis-tbilisi')">Разборка · Тбилиси</button>
+    <button class="menu-btn" onclick="go('dis-batumi')">Разборка · Батуми</button>
 
-    <section id="common" class="page active">
-      <div class="order">
-        <div class="order-title">Заказ #4189 · Mercedes</div>
-        <div class="item">Торпедо <span class="status red">НЕ ГОТОВО</span></div>
-        <div class="item">Руль <span class="status red">НЕ ГОТОВО</span></div>
-        <div class="item">Штора <span class="status red">НЕ ГОТОВО</span></div>
-      </div>
+  </div>
 
-      <div class="order">
-        <div class="order-title">Заказ #4190 · BMW</div>
-        <div class="item">Потолок <span class="status green">ГОТОВО</span></div>
-      </div>
-    </section>
+  <script>
+    function go(type) {
+      window.location.href = `orders.html?type=${type}`;
+    }
+  </script>
 
-    <section id="tbilisi" class="page">Тбилиси — пусто</section>
-    <section id="batumi" class="page">Батуми — пусто</section>
-    <section id="dis-tbilisi" class="page">Разборка Тбилиси — пусто</section>
-    <section id="dis-batumi" class="page">Разборка Батуми — пусто</section>
-
-  </main>
-
-  <script src="app.js"></script>
 </body>
 </html>
-
