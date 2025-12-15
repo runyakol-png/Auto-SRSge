@@ -2,45 +2,26 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AUTO SRS</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AUTO SRS · Staff</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
-  <!-- ЭКРАН 1: ВХОД -->
-  <div id="login-screen" class="screen active">
-    <div class="login-box">
-      <div class="logo">
-        <span class="auto">AUTO</span>
-        <span class="srs"> SRS</span>
-      </div>
+<header>
+  <h1>AUTO <span>SRS</span> · Staff</h1>
+</header>
 
-      <button class="login-btn" id="loginBtn">ВОЙТИ</button>
+<nav class="tabs">
+  <button class="active">Общие заказы</button>
+  <button>Тбилиси</button>
+  <button>Батуми</button>
+  <button>Разборка Тбилиси</button>
+  <button>Разборка Батуми</button>
+</nav>
 
-      <div class="login-sub">
-        Внутреннее приложение для сотрудников
-      </div>
-    </div>
-  </div>
+<main id="orders"></main>
 
-  <!-- ЭКРАН 2: DASHBOARD -->
-  <div id="dashboard-screen" class="screen">
-    <div class="header">
-      <span class="auto">AUTO</span>
-      <span class="srs"> SRS</span>
-      <span class="staff"> · Staff</span>
-    </div>
-
-    <div class="dashboard">
-      <div class="card">Заказы — Тбилиси</div>
-      <div class="card">Заказы — Батуми</div>
-      <div class="card">Разборка — Тбилиси</div>
-      <div class="card">Разборка — Батуми</div>
-    </div>
-  </div>
-
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
