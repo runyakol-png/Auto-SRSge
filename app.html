@@ -2,30 +2,37 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>AUTO SRS · Staff</title>
-  <link rel="stylesheet" href="style.css">
+  <title>AUTO SRS • Staff</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ВАЖНО: новый стиль -->
+  <link rel="stylesheet" href="style-app.css">
 </head>
+
 <body>
 
-  <div class="header">
-    <span class="auto">AUTO</span>
-    <span class="srs">SRS</span>
-    <span class="staff">· Staff</span>
-  </div>
+  <div class="app-wrapper">
 
-  <div class="menu">
-    <button class="menu-btn" onclick="go('orders.html')">ОБЩИЕ ЗАКАЗЫ</button>
-    <button class="menu-btn">ЗАКАЗЫ · ТБИЛИСИ</button>
-    <button class="menu-btn">ЗАКАЗЫ · БАТУМИ</button>
-    <button class="menu-btn">РАЗБОРКА · ТБИЛИСИ</button>
-    <button class="menu-btn">РАЗБОРКА · БАТУМИ</button>
-  </div>
+    <div class="app-logo">
+      <span class="auto">AUTO</span>
+      <span class="srs">SRS</span>
+    </div>
 
-  <script>
-    function go(page) {
-      window.location.href = page;
-    }
-  </script>
+    <div class="app-sub">
+      Staff panel
+    </div>
+
+    <div class="menu">
+
+      <button class="menu-btn">Общие заказы</button>
+      <button class="menu-btn">Заказы • Тбилиси</button>
+      <button class="menu-btn">Заказы • Батуми</button>
+      <button class="menu-btn">Разборка • Тбилиси</button>
+      <button class="menu-btn">Разборка • Батуми</button>
+
+    </div>
+
+  </div>
 
 </body>
 </html>
