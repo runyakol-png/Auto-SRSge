@@ -4,45 +4,24 @@ function goBack() {
 
 const API_URL = "https://auto-srs-backend-1.onrender.com";
 
-// === ХРАНИМ ВСЕ ЗАКАЗЫ ДЛЯ ПОИСКА ===
 let ALL_ORDERS = [];
+let SEARCH_OPEN = false;
 
-// ===== ЗАГРУЗКА ЗАКАЗОВ =====
+// ===== LOAD =====
 async function loadOrders() {
-  try {
-    const res = await fetch(`${API_URL}/orders`);
-    const data = await res.json();
-
-    ALL_ORDERS = data;
-
-    renderPage(data);
-
-  } catch (err) {
-    console.error("Ошибка загрузки заказов:", err);
-    document.getElementById("orders").innerHTML =
-      "<div class='error'>Ошибка загрузки заказов</div>";
-  }
+  const res = await fetch(`${API_URL}/orders`);
+  const data = await res.json();
+  ALL_ORDERS = data;
+  renderOrders(data);
 }
 
-// ===== ОТРИСОВКА СТРАНИЦЫ =====
-function renderPage(orders) {
+// ===== RENDER =====
+function renderOrders(orders) {
   const root = document.getElementById("orders");
-
-  root.innerHTML = `
-    <div class="orders-top-bar">
-      <button class="search-btn" onclick="toggleSearch()">🔍</button>
-      <input
-        id="searchInput"
-        class="search-input"
-        placeholder="Номер или имя заказа"
-        oninput="applySearch()"
-        style="display:none"
-      />
-    </div>
-  `;
+  root.innerHTML = "";
 
   if (!orders.length) {
-    root.innerHTML += "<div class='empty'>Ничего не найдено</div>";
+    root.innerHTML = "<div class='empty'>Ничего не найдено</div>";
     return;
   }
 
@@ -87,79 +66,58 @@ function renderPage(orders) {
   });
 }
 
-// ===== ПОИСК =====
+// ===== SEARCH =====
 function toggleSearch() {
   const input = document.getElementById("searchInput");
-  input.style.display = input.style.display === "none" ? "block" : "none";
-  input.focus();
+  SEARCH_OPEN = !SEARCH_OPEN;
+  input.style.display = SEARCH_OPEN ? "block" : "none";
+  input.value = "";
+  renderOrders(ALL_ORDERS);
+  if (SEARCH_OPEN) input.focus();
 }
 
 function applySearch() {
-  const value = document
-    .getElementById("searchInput")
-    .value
-    .toLowerCase();
-
-  const filtered = ALL_ORDERS.filter(order =>
-    order.title.toLowerCase().includes(value)
+  const q = document.getElementById("searchInput").value.toLowerCase();
+  const filtered = ALL_ORDERS.filter(o =>
+    o.title.toLowerCase().includes(q)
   );
-
-  renderPage(filtered);
+  renderOrders(filtered);
 }
 
-// ===== ПЕРЕКЛЮЧЕНИЕ СТАТУСА ПОЗИЦИИ =====
+// ===== STATUS =====
 async function toggleItem(orderId, index) {
-  try {
-    await fetch(`${API_URL}/orders/${orderId}/items/${index}`, {
-      method: "PATCH"
-    });
-    loadOrders();
-  } catch (err) {
-    console.error("Ошибка изменения статуса:", err);
-  }
+  await fetch(`${API_URL}/orders/${orderId}/items/${index}`, { method: "PATCH" });
+  loadOrders();
 }
 
-// ===== УДАЛЕНИЕ ЗАКАЗА =====
+// ===== DELETE =====
 async function deleteOrder(orderId) {
   if (!confirm("Удалить заказ полностью?")) return;
-
-  try {
-    await fetch(`${API_URL}/orders/${orderId}`, {
-      method: "DELETE"
-    });
-    loadOrders();
-  } catch (err) {
-    console.error("Ошибка удаления заказа:", err);
-  }
+  await fetch(`${API_URL}/orders/${orderId}`, { method: "DELETE" });
+  loadOrders();
 }
 
-// ===== РЕДАКТИРОВАНИЕ ВСЕГО ЗАКАЗА =====
+// ===== EDIT FULL ORDER =====
 async function editOrder(orderId) {
-  try {
-    const order = ALL_ORDERS.find(o => o.id === orderId);
-    if (!order) return;
+  const order = ALL_ORDERS.find(o => o.id === orderId);
+  if (!order) return;
 
-    const rawText = [
-      order.title,
-      ...order.items.map(i => i.name),
-      order.master ? `Р/с ${order.master}` : ""
-    ]
-      .filter(Boolean)
-      .join("\n");
+  const text = [
+    order.title,
+    ...order.items.map(i => i.name),
+    order.master ? `Р/с ${order.master}` : ""
+  ].join("\n");
 
-    const edited = prompt("Редактировать заказ целиком:", rawText);
-    if (!edited) return;
+  const edited = prompt("Редактировать заказ:", text);
+  if (!edited) return;
 
-    await fetch(`${API_URL}/orders/${orderId}/raw`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: edited })
-    });
+  await fetch(`${API_URL}/orders/${orderId}/raw`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text: edited })
+  });
 
-    loadOrders();
-  } catch (err) {
-    console.error("Ошибка редактирования заказа:", err);
-  }
+  loadOrders();
 }
 
 // ===== START =====
