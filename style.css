@@ -1,78 +1,78 @@
-body {
-  margin: 0;
-  background: #000;
-  color: white;
+* {
+  box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* ЭКРАНЫ */
-.screen {
-  display: none;
-  min-height: 100vh;
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
 }
 
-.screen.active {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* LOGIN */
-.login-box {
+header {
+  padding: 16px;
   text-align: center;
 }
 
-.logo {
-  font-size: 30px;
-  letter-spacing: 0.2em;
-  margin-bottom: 40px;
+header span {
+  color: red;
 }
 
-.auto { color: #fff; }
-.srs { color: #ff2b2b; }
+.tabs {
+  display: flex;
+  overflow-x: auto;
+  border-bottom: 1px solid #222;
+}
 
-.login-btn {
-  background: transparent;
-  border: 1px solid #ff2b2b;
-  color: #ff2b2b;
-  padding: 14px 60px;
-  border-radius: 30px;
-  font-size: 16px;
+.tabs button {
+  flex: 1;
+  padding: 12px;
+  background: none;
+  border: none;
+  color: #aaa;
   cursor: pointer;
 }
 
-.login-sub {
-  margin-top: 20px;
-  font-size: 12px;
-  color: #666;
+.tabs button.active {
+  color: #fff;
+  border-bottom: 2px solid red;
 }
 
-/* DASHBOARD */
-#dashboard-screen {
-  flex-direction: column;
-  padding: 20px;
+#orders {
+  padding: 16px;
 }
 
-.header {
-  text-align: center;
-  margin-bottom: 20px;
-  letter-spacing: 0.15em;
+.order {
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 16px;
 }
 
-.staff {
-  color: #666;
-  font-size: 13px;
+.order-title {
+  font-weight: 600;
+  margin-bottom: 8px;
 }
 
-.dashboard {
+.item {
   display: flex;
-  flex-direction: column;
-  gap: 14px;
+  justify-content: space-between;
+  padding: 6px 0;
 }
 
-.card {
-  border: 1px solid #1f1f1f;
-  border-radius: 16px;
-  padding: 18px;
-  background: #050505;
+.status {
+  padding: 4px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.pending {
+  background: #330000;
+  color: red;
+}
+
+.done {
+  background: #003300;
+  color: #00ff66;
 }
