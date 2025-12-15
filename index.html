@@ -1,24 +1,36 @@
-<section id="screen-main" class="screen">
-  <header class="header">
-    <div class="header-title">AUTO SRS • Staff</div>
-    <div class="header-user" id="user-name"></div>
-  </header>
+<body>
 
-  <main class="main menu-grid">
-    <button class="menu-card" onclick="openSection('orders_tbilisi')">
-      Заказы<br><span>Тбилиси</span>
-    </button>
+  <!-- ЭКРАН 1: ВХОД -->
+  <div id="login-screen" class="screen active">
+    <div class="login-box">
+      <div class="logo">
+        <span class="auto">AUTO</span>
+        <span class="srs"> SRS</span>
+      </div>
 
-    <button class="menu-card" onclick="openSection('orders_batumi')">
-      Заказы<br><span>Батуми</span>
-    </button>
+      <button class="login-btn" onclick="login()">ВОЙТИ</button>
 
-    <button class="menu-card" onclick="openSection('dismantle_tbilisi')">
-      Разборка<br><span>Тбилиси</span>
-    </button>
+      <div class="login-sub">
+        Внутреннее приложение для сотрудников
+      </div>
+    </div>
+  </div>
 
-    <button class="menu-card" onclick="openSection('dismantle_batumi')">
-      Разборка<br><span>Батуми</span>
-    </button>
-  </main>
-</section>
+  <!-- ЭКРАН 2: DASHBOARD -->
+  <div id="dashboard-screen" class="screen">
+    <div class="header">
+      <span class="auto">AUTO</span>
+      <span class="srs"> SRS</span>
+      <span class="staff"> · Staff</span>
+    </div>
+
+    <div class="dashboard">
+      <div class="card">Заказы — Тбилиси</div>
+      <div class="card">Заказы — Батуми</div>
+      <div class="card">Разборка — Тбилиси</div>
+      <div class="card">Разборка — Батуми</div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
