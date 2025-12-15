@@ -2,38 +2,58 @@ function goBack() {
   window.location.href = "app.html";
 }
 
+const API_URL = "https://auto-srs-backend-1.onrender.com/orders";
+
 async function loadOrders() {
-  const res = await fetch("/api/add-order");
-  const data = await res.json();
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
 
-  const root = document.getElementById("orders");
-  root.innerHTML = "";
+    const root = document.getElementById("orders");
+    root.innerHTML = "";
 
-  data.forEach(order => {
-    const card = document.createElement("div");
-    card.className = "order-card";
+    if (!data.length) {
+      root.innerHTML = "<div class='empty'>Заказов пока нет</div>";
+      return;
+    }
 
-    card.innerHTML = `
-      <div class="order-header">
-        Заказ #${order.orderId || "—"}
-      </div>
+    data.forEach(order => {
+      const card = document.createElement("div");
+      card.className = "order-card";
 
-      ${order.items.map(i => `
-        <div class="order-row">
-          <span>${i.name}</span>
-          <button class="status ${i.done ? "done" : "not-done"}">
-            ${i.done ? "ГОТОВО" : "НЕ ГОТОВО"}
-          </button>
+      card.innerHTML = `
+        <div class="order-header">
+          ${order.title}
         </div>
-      `).join("")}
 
-      <div class="order-master">
-        Мастер: ${order.master || "—"}
-      </div>
-    `;
+        <div class="order-items">
+          ${order.items.map(i => `
+            <div class="order-row">
+              <span>${i}</span>
+            </div>
+          `).join("")}
+        </div>
 
-    root.appendChild(card);
-  });
+        <div class="order-master">
+          Мастер: ${order.master || "—"}
+        </div>
+
+        <div class="order-date">
+          ${new Date(order.createdAt).toLocaleString()}
+        </div>
+      `;
+
+      root.appendChild(card);
+    });
+
+  } catch (err) {
+    console.error("Ошибка загрузки заказов:", err);
+    document.getElementById("orders").innerHTML =
+      "<div class='error'>Ошибка загрузки заказов</div>";
+  }
 }
 
 loadOrders();
+
+// автообновление каждые 5 секунд
+setInterval(loadOrders, 5000);
