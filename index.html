@@ -1,59 +1,24 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <title>AUTO SRS — Internal</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-</head>
-<body>
-  <div class="app">
-    <section id="screen-login" class="screen active">
-      <div class="logo-block">
-        <div class="logo-text">
-          <span class="logo-auto">AUTO</span>
-          <span class="logo-srs">SRS</span>
-        </div>
-      </div>
-      <button id="btn-login" class="btn-tesla">Войти</button>
-      <div class="login-note">Внутреннее приложение Auto SRS</div>
-    </section>
+<section id="screen-main" class="screen">
+  <header class="header">
+    <div class="header-title">AUTO SRS • Staff</div>
+    <div class="header-user" id="user-name"></div>
+  </header>
 
-    <section id="screen-main" class="screen">
-      <header class="header">
-        <div class="header-title">AUTO SRS • Staff</div>
-        <div class="header-user" id="user-name"></div>
-      </header>
+  <main class="main menu-grid">
+    <button class="menu-card" onclick="openSection('orders_tbilisi')">
+      Заказы<br><span>Тбилиси</span>
+    </button>
 
-      <main class="main">
-        <div class="card">
-          <h2>Быстрый отчёт</h2>
+    <button class="menu-card" onclick="openSection('orders_batumi')">
+      Заказы<br><span>Батуми</span>
+    </button>
 
-          <label class="field">
-            <span>ID заказа / авто</span>
-            <input id="order-id" type="text" />
-          </label>
+    <button class="menu-card" onclick="openSection('dismantle_tbilisi')">
+      Разборка<br><span>Тбилиси</span>
+    </button>
 
-          <label class="field">
-            <span>Статус</span>
-            <select id="order-status">
-              <option value="in_progress">В работе</option>
-              <option value="waiting">Ожидание</option>
-              <option value="done">Готово</option>
-            </select>
-          </label>
-
-          <label class="field">
-            <span>Комментарий</span>
-            <textarea id="order-comment"></textarea>
-          </label>
-
-          <button id="btn-send" class="btn-primary">Отправить</button>
-        </div>
-      </main>
-    </section>
-  </div>
-  <script src="app.js"></script>
-</body>
-</html>
+    <button class="menu-card" onclick="openSection('dismantle_batumi')">
+      Разборка<br><span>Батуми</span>
+    </button>
+  </main>
+</section>
