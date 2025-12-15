@@ -4,29 +4,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AUTO SRS</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="login-page">
 
-  <div class="login-page">
-
+  <div class="login-container">
     <div class="logo">
       <span class="auto">AUTO</span>
       <span class="srs">SRS</span>
     </div>
 
-    <button class="login-btn" onclick="enterApp()">
+    <div class="logo-line"></div>
+
+    <button class="login-btn" onclick="goToApp()">
       ВОЙТИ
     </button>
 
-    <div class="login-sub">
+    <div class="login-subtext">
       Внутреннее приложение для сотрудников
     </div>
-
   </div>
 
   <script>
-    function enterApp() {
+    function goToApp() {
       window.location.href = "app.html";
     }
   </script>
