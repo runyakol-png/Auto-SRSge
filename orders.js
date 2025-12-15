@@ -4,65 +4,107 @@ function goBack() {
 
 const API_URL = "https://auto-srs-backend-1.onrender.com";
 
+// === ХРАНИМ ВСЕ ЗАКАЗЫ ДЛЯ ПОИСКА ===
+let ALL_ORDERS = [];
+
 // ===== ЗАГРУЗКА ЗАКАЗОВ =====
 async function loadOrders() {
   try {
     const res = await fetch(`${API_URL}/orders`);
     const data = await res.json();
 
-    const root = document.getElementById("orders");
-    root.innerHTML = "";
+    ALL_ORDERS = data;
 
-    if (!data.length) {
-      root.innerHTML = "<div class='empty'>Заказов пока нет</div>";
-      return;
-    }
-
-    data.forEach(order => {
-      const card = document.createElement("div");
-      card.className = "order-card";
-
-      card.innerHTML = `
-        <div class="order-header">
-          <span>${order.title}</span>
-
-          <div class="order-actions">
-            <button class="edit-btn" onclick="editOrder(${order.id})">✏️</button>
-            <button class="delete-btn" onclick="deleteOrder(${order.id})">🗑</button>
-          </div>
-        </div>
-
-        <div class="order-items">
-          ${order.items.map((item, index) => `
-            <div class="order-row">
-              <span>${item.name}</span>
-              <button
-                class="status ${item.done ? "done" : "not-done"}"
-                onclick="toggleItem(${order.id}, ${index})"
-              >
-                ${item.done ? "ГОТОВО" : "НЕ ГОТОВО"}
-              </button>
-            </div>
-          `).join("")}
-        </div>
-
-        <div class="order-master">
-          Мастер: ${order.master || "—"}
-        </div>
-
-        <div class="order-date">
-          ${new Date(order.createdAt).toLocaleString()}
-        </div>
-      `;
-
-      root.appendChild(card);
-    });
+    renderPage(data);
 
   } catch (err) {
     console.error("Ошибка загрузки заказов:", err);
     document.getElementById("orders").innerHTML =
       "<div class='error'>Ошибка загрузки заказов</div>";
   }
+}
+
+// ===== ОТРИСОВКА СТРАНИЦЫ =====
+function renderPage(orders) {
+  const root = document.getElementById("orders");
+
+  root.innerHTML = `
+    <div class="orders-top-bar">
+      <button class="search-btn" onclick="toggleSearch()">🔍</button>
+      <input
+        id="searchInput"
+        class="search-input"
+        placeholder="Номер или имя заказа"
+        oninput="applySearch()"
+        style="display:none"
+      />
+    </div>
+  `;
+
+  if (!orders.length) {
+    root.innerHTML += "<div class='empty'>Ничего не найдено</div>";
+    return;
+  }
+
+  orders.forEach(order => {
+    const card = document.createElement("div");
+    card.className = "order-card";
+
+    card.innerHTML = `
+      <div class="order-header">
+        <span>${order.title}</span>
+
+        <div class="order-actions">
+          <button class="edit-btn" onclick="editOrder(${order.id})">✏️</button>
+          <button class="delete-btn" onclick="deleteOrder(${order.id})">🗑</button>
+        </div>
+      </div>
+
+      <div class="order-items">
+        ${order.items.map((item, index) => `
+          <div class="order-row">
+            <span>${item.name}</span>
+            <button
+              class="status ${item.done ? "done" : "not-done"}"
+              onclick="toggleItem(${order.id}, ${index})"
+            >
+              ${item.done ? "ГОТОВО" : "НЕ ГОТОВО"}
+            </button>
+          </div>
+        `).join("")}
+      </div>
+
+      <div class="order-master">
+        Мастер: ${order.master || "—"}
+      </div>
+
+      <div class="order-date">
+        ${new Date(order.createdAt).toLocaleString()}
+      </div>
+    `;
+
+    root.appendChild(card);
+  });
+}
+
+// ===== ПОИСК =====
+function toggleSearch() {
+  const input = document.getElementById("searchInput");
+  input.style.display = input.style.display === "none" ? "block" : "none";
+  input.focus();
+}
+
+function applySearch() {
+  const value = document
+    .getElementById("searchInput")
+    .value
+    .toLowerCase();
+
+  const filtered = ALL_ORDERS.filter(order =>
+    order.title.toLowerCase().includes(value)
+  );
+
+  renderPage(filtered);
 }
 
 // ===== ПЕРЕКЛЮЧЕНИЕ СТАТУСА ПОЗИЦИИ =====
@@ -94,12 +136,9 @@ async function deleteOrder(orderId) {
 // ===== РЕДАКТИРОВАНИЕ ВСЕГО ЗАКАЗА =====
 async function editOrder(orderId) {
   try {
-    // получаем актуальный заказ
-    const orders = await fetch(`${API_URL}/orders`).then(r => r.json());
-    const order = orders.find(o => o.id === orderId);
+    const order = ALL_ORDERS.find(o => o.id === orderId);
     if (!order) return;
 
-    // собираем текст в привычном виде
     const rawText = [
       order.title,
       ...order.items.map(i => i.name),
@@ -113,9 +152,7 @@ async function editOrder(orderId) {
 
     await fetch(`${API_URL}/orders/${orderId}/raw`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: edited })
     });
 
