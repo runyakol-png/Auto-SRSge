@@ -7,16 +7,24 @@ const API_URL = "https://auto-srs-backend-1.onrender.com";
 let ALL_ORDERS = [];
 let SEARCH_OPEN = false;
 
-// ===== LOAD =====
+// ================= LOAD ORDERS =================
 async function loadOrders() {
-  const res = await fetch(`${API_URL}/orders`);
-  const data = await res.json();
-  ALL_ORDERS = data;
-  renderOrders(data);
+  try {
+    const res = await fetch(`${API_URL}/orders`);
+    const data = await res.json();
+
+    ALL_ORDERS = data;
+    renderOrders(data);
+
+  } catch (err) {
+    console.error("Ошибка загрузки заказов:", err);
+    document.getElementById("orders").innerHTML =
+      "<div class='error'>Ошибка загрузки заказов</div>";
+  }
 }
 
-// ===== RENDER =====
-function renderOrders(orders) {
+// ================= RENDER =================
+function renderOrders(orders, query = "") {
   const root = document.getElementById("orders");
   root.innerHTML = "";
 
@@ -25,13 +33,14 @@ function renderOrders(orders) {
     return;
   }
 
-  orders.forEach(order => {
+  orders.forEach((order, idx) => {
     const card = document.createElement("div");
     card.className = "order-card";
+    if (idx === 0 && query) card.id = "first-found";
 
     card.innerHTML = `
       <div class="order-header">
-        <span>${order.title}</span>
+        <span>${highlight(order.title, query)}</span>
 
         <div class="order-actions">
           <button class="edit-btn" onclick="editOrder(${order.id})">✏️</button>
@@ -42,7 +51,7 @@ function renderOrders(orders) {
       <div class="order-items">
         ${order.items.map((item, index) => `
           <div class="order-row">
-            <span>${item.name}</span>
+            <span>${highlight(item.name, query)}</span>
             <button
               class="status ${item.done ? "done" : "not-done"}"
               onclick="toggleItem(${order.id}, ${index})"
@@ -54,7 +63,7 @@ function renderOrders(orders) {
       </div>
 
       <div class="order-master">
-        Мастер: ${order.master || "—"}
+        Мастер: ${highlight(order.master || "—", query)}
       </div>
 
       <div class="order-date">
@@ -64,40 +73,85 @@ function renderOrders(orders) {
 
     root.appendChild(card);
   });
+
+  // 📌 автоскролл к первому найденному
+  if (query) {
+    setTimeout(() => {
+      const el = document.getElementById("first-found");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
+  }
 }
 
-// ===== SEARCH =====
+// ================= SEARCH =================
 function toggleSearch() {
+  const box = document.getElementById("searchBox");
   const input = document.getElementById("searchInput");
+
   SEARCH_OPEN = !SEARCH_OPEN;
-  input.style.display = SEARCH_OPEN ? "block" : "none";
+  box.style.display = SEARCH_OPEN ? "block" : "none";
   input.value = "";
+
   renderOrders(ALL_ORDERS);
-  if (SEARCH_OPEN) input.focus();
+
+  if (SEARCH_OPEN) {
+    setTimeout(() => input.focus(), 50);
+  }
+}
+
+function handleSearchKey(e) {
+  if (e.key === "Enter") {
+    applySearch();
+  }
 }
 
 function applySearch() {
-  const q = document.getElementById("searchInput").value.toLowerCase();
-  const filtered = ALL_ORDERS.filter(o =>
-    o.title.toLowerCase().includes(q)
+  const query = document
+    .getElementById("searchInput")
+    .value
+    .toLowerCase();
+
+  if (!query) {
+    renderOrders(ALL_ORDERS);
+    return;
+  }
+
+  const filtered = ALL_ORDERS.filter(order =>
+    order.title.toLowerCase().includes(query) ||
+    order.master.toLowerCase().includes(query) ||
+    order.items.some(i => i.name.toLowerCase().includes(query))
   );
-  renderOrders(filtered);
+
+  renderOrders(filtered, query);
 }
 
-// ===== STATUS =====
+// ================= HIGHLIGHT =================
+function highlight(text, query) {
+  if (!query || !text) return text;
+
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return text.replace(
+    new RegExp(`(${escaped})`, "gi"),
+    `<mark style="background:#ff000055;color:#fff;border-radius:4px;padding:0 3px;">$1</mark>`
+  );
+}
+
+// ================= STATUS =================
 async function toggleItem(orderId, index) {
-  await fetch(`${API_URL}/orders/${orderId}/items/${index}`, { method: "PATCH" });
+  await fetch(`${API_URL}/orders/${orderId}/items/${index}`, {
+    method: "PATCH"
+  });
   loadOrders();
 }
 
-// ===== DELETE =====
+// ================= DELETE =================
 async function deleteOrder(orderId) {
   if (!confirm("Удалить заказ полностью?")) return;
   await fetch(`${API_URL}/orders/${orderId}`, { method: "DELETE" });
   loadOrders();
 }
 
-// ===== EDIT FULL ORDER =====
+// ================= EDIT FULL ORDER =================
 async function editOrder(orderId) {
   const order = ALL_ORDERS.find(o => o.id === orderId);
   if (!order) return;
@@ -120,6 +174,6 @@ async function editOrder(orderId) {
   loadOrders();
 }
 
-// ===== START =====
+// ================= START =================
 loadOrders();
 setInterval(loadOrders, 5000);
